@@ -53,13 +53,13 @@
     ],
     "semicolon": [
       true,
-      "always"
+      "never"
     ],
     "trailing-comma": false,
     "indent": [
       true,
       "tabs",
-      4
+      2
     ],
     "linterOptions": {
       "exclude": [
