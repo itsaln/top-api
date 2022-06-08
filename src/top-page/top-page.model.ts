@@ -30,7 +30,9 @@ export class TopPageAdvantage {
   description: string
 }
 
-export interface TopPageModel extends Base {}
+export interface TopPageModel extends Base {
+}
+
 export class TopPageModel extends TimeStamps {
   @prop({ enum: TopLevelCategory })
   firstCategory: TopLevelCategory
@@ -47,10 +49,10 @@ export class TopPageModel extends TimeStamps {
   @prop()
   category: string
 
-  @prop({ type: () => HhData})
+  @prop({ type: () => HhData })
   hh?: HhData
 
-  @prop({ type: () => [TopPageAdvantage]})
+  @prop({ type: () => [TopPageAdvantage] })
   advantages: TopPageAdvantage[]
 
   @prop()
