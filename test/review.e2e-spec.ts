@@ -38,7 +38,7 @@ describe('AppController (e2e)', () => {
     const { body } = await request(app.getHttpServer())
       .post('/auth/login')
       .send(loginDto)
-      token = body.access_token
+    token = body.access_token
   })
 
   it('/review/create (POST - success)', async () => {
