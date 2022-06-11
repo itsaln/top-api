@@ -3,18 +3,17 @@ import {
 	Controller,
 	Delete,
 	Get,
-	HttpException,
-	HttpStatus,
+	NotFoundException,
 	Param,
 	Post,
 	UseGuards,
 	UsePipes,
 	ValidationPipe,
 } from '@nestjs/common'
-import { CreateReviewDto } from './dto/create-review.dto'
-import { ReviewService } from './review.service'
-import { REVIEW_NOT_FOUND } from './review.constants'
-import { JwtAuthGuard } from '../auth/guards/jwt.guard'
+import { JwtAuthGuard } from '@app/auth/guards/jwt.guard'
+import { CreateReviewDto } from '@app/review/dto/create-review.dto'
+import { ReviewService } from '@app/review/review.service'
+import { REVIEW_NOT_FOUND } from '@app/review/review.constants'
 
 @Controller('review')
 export class ReviewController {
@@ -23,21 +22,48 @@ export class ReviewController {
 	@UsePipes(new ValidationPipe())
 	@Post('create')
 	async create(@Body() dto: CreateReviewDto) {
-		return this.reviewService.create(dto)
+		return await this.reviewService.create(dto)
+	}
+
+	@Get(':id')
+	async findById(@Param('id') id: string) {
+		const review = await this.reviewService.findById(id)
+
+		if(!review) {
+			throw new NotFoundException(REVIEW_NOT_FOUND)
+		}
+		return review
 	}
 
 	@UseGuards(JwtAuthGuard)
 	@Delete(':id')
-	async delete(@Param('id') id: string) {
-		const deletedDoc = await this.reviewService.delete(id)
+	async deleteById(@Param('id') id: string) {
+		const deletedDoc = await this.reviewService.deleteById(id)
 
 		if (!deletedDoc) {
-			throw new HttpException(REVIEW_NOT_FOUND, HttpStatus.NOT_FOUND)
+			throw new NotFoundException(REVIEW_NOT_FOUND)
 		}
+		return deletedDoc
 	}
 
 	@Get('byProduct/:productId')
-	async get(@Param('productId') productId: string) {
-		return this.reviewService.findByProductId(productId)
+	async findByProductId(@Param('productId') productId: string) {
+		const review = await this.reviewService.findByProductId(productId)
+
+		if(!review) {
+			throw new NotFoundException(REVIEW_NOT_FOUND)
+		}
+		return review
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Delete('byProduct/:productId')
+	async deleteByProductId(@Param('productId') productId: string) {
+		const deletedDoc = await this.reviewService.deleteByProductId(productId)
+
+		if (!deletedDoc) {
+			throw new NotFoundException(REVIEW_NOT_FOUND)
+		}
+		return deletedDoc
 	}
 }

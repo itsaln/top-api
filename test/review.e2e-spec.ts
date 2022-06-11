@@ -2,10 +2,10 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication, Logger } from '@nestjs/common'
 import * as request from 'supertest'
 import { Types, disconnect } from 'mongoose'
-import { AppModule } from '../src/app.module'
-import { CreateReviewDto } from '../src/review/dto/create-review.dto'
-import { REVIEW_NOT_FOUND } from '../src/review/review.constants'
-import { AuthDto } from '../src/auth/dto/auth.dto'
+import { AppModule } from '@app/app.module'
+import { AuthDto } from '@app/auth/dto/auth.dto'
+import { CreateReviewDto } from '@app/review/dto/create-review.dto'
+import { REVIEW_NOT_FOUND } from '@app/review/review.constants'
 
 const productId = new Types.ObjectId().toHexString()
 

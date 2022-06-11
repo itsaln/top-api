@@ -2,9 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication, Logger } from '@nestjs/common'
 import * as request from 'supertest'
 import { disconnect } from 'mongoose'
-import { AppModule } from '../src/app.module'
-import { AuthDto } from '../src/auth/dto/auth.dto'
-import { WRONG_PASSWORD_ERROR, USER_NOT_FOUND_ERROR } from '../src/auth/auth.constants'
+import { AppModule } from '@app/app.module'
+import { AuthDto } from '@app/auth/dto/auth.dto'
+import { WRONG_PASSWORD_ERROR, USER_NOT_FOUND_ERROR } from '@app/auth/auth.constants'
 
 const loginDto: AuthDto = {
 	login: 'aln@gmail.com',

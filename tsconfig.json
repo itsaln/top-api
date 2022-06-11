@@ -19,6 +19,9 @@
     "noFallthroughCasesInSwitch": false,
     "strict": true,
     "strictPropertyInitialization": false,
-    "skipDefaultLibCheck": true
+    "skipDefaultLibCheck": true,
+    "paths": {
+      "@app/*": ["./src/*"]
+    }
   }
 }

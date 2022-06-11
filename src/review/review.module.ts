@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common'
 import { TypegooseModule } from 'nestjs-typegoose'
-import { ReviewController } from './review.controller'
-import { ReviewModel } from './review.model'
-import { ReviewService } from './review.service'
+import { ReviewModel } from '@app/review/review.model'
+import { ReviewController } from '@app/review/review.controller'
+import { ReviewService } from '@app/review/review.service'
 
 @Module({
-	controllers: [ReviewController],
 	imports: [
 		TypegooseModule.forFeature([
 			{
@@ -14,6 +13,7 @@ import { ReviewService } from './review.service'
 			}
 		])
 	],
+	controllers: [ReviewController],
 	providers: [ReviewService]
 })
 
