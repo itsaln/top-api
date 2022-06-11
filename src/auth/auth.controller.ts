@@ -14,13 +14,13 @@ export class AuthController {
 		if(oldUser) {
 			throw new BadRequestException(ALREADY_REGISTERED_ERROR)
 		}
-		return this.authService.createUser(dto)
+		return await this.authService.createUser(dto)
 	}
 
 	@HttpCode(200)
 	@Post('login')
 	async login(@Body() { login, password }: AuthDto) {
 		const { email } = await this.authService.validateUser(login, password)
-		return this.authService.login(email)
+		return await this.authService.login(email)
 	}
 }
