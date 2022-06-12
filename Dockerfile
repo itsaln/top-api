@@ -1,4 +1,4 @@
-FROM node
+FROM node:18
 WORKDIR /opt/app
 ADD package.json package.json
 RUN npm install
