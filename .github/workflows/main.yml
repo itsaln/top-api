@@ -16,4 +16,5 @@ jobs:
           name: docker.pkg.github.com/scripac/top-api/top-api
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+          token: ${{ secrets.REGISTRY_TOKEN }}
           tags: 'develop'
