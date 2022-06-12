@@ -1,7 +1,9 @@
 import { BadRequestException, Body, Controller, HttpCode, Post, UsePipes, ValidationPipe } from '@nestjs/common'
-import { ALREADY_REGISTERED_ERROR } from '@app/auth/auth.constants'
-import { AuthService } from '@app/auth/auth.service'
+import { DocumentType } from '@typegoose/typegoose/lib/types'
 import { AuthDto } from '@app/auth/dto/auth.dto'
+import { UserModel } from '@app/auth/user.model'
+import { AuthService } from '@app/auth/auth.service'
+import { ALREADY_REGISTERED_ERROR } from '@app/auth/auth.constants'
 
 @Controller('auth')
 export class AuthController {
@@ -9,18 +11,19 @@ export class AuthController {
 
 	@UsePipes(new ValidationPipe())
 	@Post('register')
-	async register(@Body() dto: AuthDto) {
+	async register(@Body() dto: AuthDto): Promise<DocumentType<UserModel>> {
 		const oldUser = await this.authService.findUser(dto.login)
+
 		if(oldUser) {
 			throw new BadRequestException(ALREADY_REGISTERED_ERROR)
 		}
-		return await this.authService.createUser(dto)
+		return this.authService.createUser(dto)
 	}
 
 	@HttpCode(200)
 	@Post('login')
-	async login(@Body() { login, password }: AuthDto) {
-		const { email } = await this.authService.validateUser(login, password)
-		return await this.authService.login(email)
+	async login(@Body() dto: AuthDto): Promise<{access_token: string}> {
+		const { email } = await this.authService.validateUser(dto.login, dto.password)
+		return this.authService.login(email)
 	}
 }

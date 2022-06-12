@@ -10,11 +10,13 @@ import {
 	UsePipes,
 	ValidationPipe,
 } from '@nestjs/common'
+import { DocumentType } from '@typegoose/typegoose/lib/types'
 import { JwtAuthGuard } from '@app/auth/guards/jwt.guard'
+import { IdValidationPipe } from '@app/pipes/ad-validation.pipe'
 import { CreateReviewDto } from '@app/review/dto/create-review.dto'
+import { ReviewModel } from '@app/review/review.model'
 import { ReviewService } from '@app/review/review.service'
 import { REVIEW_NOT_FOUND } from '@app/review/review.constants'
-import { IdValidationPipe } from '@app/pipes/ad-validation.pipe'
 
 @Controller('review')
 export class ReviewController {
@@ -22,12 +24,12 @@ export class ReviewController {
 
 	@UsePipes(new ValidationPipe())
 	@Post('create')
-	async create(@Body() dto: CreateReviewDto) {
-		return await this.reviewService.create(dto)
+	async create(@Body() dto: CreateReviewDto): Promise<DocumentType<ReviewModel>> {
+		return this.reviewService.create(dto)
 	}
 
 	@Get(':id')
-	async findById(@Param('id', IdValidationPipe) id: string) {
+	async findById(@Param('id', IdValidationPipe) id: string): Promise<DocumentType<ReviewModel> | null> {
 		const review = await this.reviewService.findById(id)
 
 		if(!review) {
@@ -38,7 +40,7 @@ export class ReviewController {
 
 	@UseGuards(JwtAuthGuard)
 	@Delete(':id')
-	async deleteById(@Param('id', IdValidationPipe) id: string) {
+	async deleteById(@Param('id', IdValidationPipe) id: string): Promise<DocumentType<ReviewModel> | null> {
 		const deletedDoc = await this.reviewService.deleteById(id)
 
 		if (!deletedDoc) {
@@ -48,7 +50,7 @@ export class ReviewController {
 	}
 
 	@Get('byProduct/:productId')
-	async findByProductId(@Param('productId', IdValidationPipe) productId: string) {
+	async findByProductId(@Param('productId', IdValidationPipe) productId: string): Promise<DocumentType<ReviewModel>[] | null> {
 		const review = await this.reviewService.findByProductId(productId)
 
 		if(!review) {

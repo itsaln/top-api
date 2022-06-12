@@ -16,23 +16,23 @@ export class ReviewService {
 	) {}
 
 	async create(dto: CreateReviewDto): Promise<DocumentType<ReviewModel>> {
-		return await this.reviewModel.create(dto)
+		return this.reviewModel.create(dto)
 	}
 
 	async findById(id: string): Promise<DocumentType<ReviewModel> | null> {
-		return await this.reviewModel.findById(id).exec()
+		return this.reviewModel.findById(id).exec()
 	}
 
 	async deleteById(id: string): Promise<DocumentType<ReviewModel> | null> {
-		return await this.reviewModel.findByIdAndDelete(id).exec()
+		return this.reviewModel.findByIdAndDelete(id).exec()
 	}
 
 	async findByProductId(productId: string): Promise<DocumentType<ReviewModel>[] | null> {
 		leaks.push(new Leak())
-		return await this.reviewModel.find({ productId: new Types.ObjectId(productId) }).exec()
+		return this.reviewModel.find({ productId: new Types.ObjectId(productId) }).exec()
 	}
 
 	async deleteByProductId(productId: string) {
-		return await this.reviewModel.deleteMany({ productId: new Types.ObjectId(productId) }).exec()
+		return this.reviewModel.deleteMany({ productId: new Types.ObjectId(productId) }).exec()
 	}
 }

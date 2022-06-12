@@ -1,6 +1,6 @@
 import { ArgumentMetadata, BadRequestException, Injectable, PipeTransform } from '@nestjs/common'
 import { Types } from 'mongoose'
-import { ID_VALIDATION_ERROR } from './ad-validation.constants'
+import { ID_VALIDATION_ERROR } from '@app/pipes/ad-validation.constants'
 
 @Injectable()
 export class IdValidationPipe implements PipeTransform {

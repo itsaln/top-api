@@ -1,34 +1,38 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common'
 import { DocumentType, ModelType } from '@typegoose/typegoose/lib/types'
 import { InjectModel } from 'nestjs-typegoose'
-import { TopLevelCategory, TopPageModel } from '@app/top-page/top-page.model'
 import { CreateTopPageDto } from './dto/create-top-page.dto'
+import { TopLevelCategory, TopPageModel } from '@app/top-page/top-page.model'
 
 @Injectable()
 export class TopPageService {
 	constructor(@InjectModel(TopPageModel) private readonly topPageModel: ModelType<TopPageModel>) {}
 
-	async create(dto: CreateTopPageDto) {
-		return await this.topPageModel.create(dto)
+	async create(dto: CreateTopPageDto): Promise<DocumentType<TopPageModel>> {
+		return this.topPageModel.create(dto)
 	}
 
 	async findById(id: string): Promise<DocumentType<TopPageModel> | null> {
-		return await this.topPageModel.findById(id).exec()
+		return this.topPageModel.findById(id).exec()
 	}
 
 	async findByAlias(alias: string): Promise<DocumentType<TopPageModel> | null> {
-		return await this.topPageModel.findOne({ alias }).exec()
+		return this.topPageModel.findOne({ alias }).exec()
 	}
 
 	async findByCategory(firstCategory: TopLevelCategory) {
-		return await this.topPageModel.find({ firstCategory }, { alias: 1, secondCategory: 1, title: 1 }).exec()
+		return this.topPageModel.find({ firstCategory }, { alias: 1, secondCategory: 1, title: 1 }).exec()
+	}
+
+	async findByText(text: string) {
+		return this.topPageModel.find({ $text: { $search: text, $caseSensitive: false } }).exec()
 	}
 
 	async deleteById(id: string): Promise<DocumentType<TopPageModel> | null> {
-		return await this.topPageModel.findByIdAndDelete(id).exec()
+		return this.topPageModel.findByIdAndDelete(id).exec()
 	}
 
 	async updateById(id: string, dto: CreateTopPageDto): Promise<DocumentType<TopPageModel> | null> {
-		return await this.topPageModel.findByIdAndUpdate(id, dto, { new: true }).exec()
+		return this.topPageModel.findByIdAndUpdate(id, dto, { new: true }).exec()
 	}
 }

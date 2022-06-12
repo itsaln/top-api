@@ -13,22 +13,22 @@ export class ProductService {
 	) {}
 
 	async create(dto: CreateProductDto): Promise<DocumentType<ProductModel>> {
-		return await this.productModel.create(dto)
+		return this.productModel.create(dto)
 	}
 
 	async findById(id: string): Promise<DocumentType<ProductModel> | null> {
-		return await this.productModel.findById(id).exec()
+		return this.productModel.findById(id).exec()
 	}
 
 	async deleteById(id: string): Promise<DocumentType<ProductModel> | null> {
-		return await this.productModel.findByIdAndDelete(id).exec()
+		return this.productModel.findByIdAndDelete(id).exec()
 	}
 
 	async updateById(id: string, dto: CreateProductDto): Promise<DocumentType<ProductModel> | null> {
-		return await this.productModel.findByIdAndUpdate(id, dto, { new: true }).exec()
+		return this.productModel.findByIdAndUpdate(id, dto, { new: true }).exec()
 	}
 
-	async findWithReviews(dto: FindProductDto) {
+	async findWithReviews(dto: FindProductDto): Promise<(ProductModel & { $reviews: ReviewModel[], reviewCount: number, reviewAvg: number })[]> {
 		return await this.productModel.aggregate([
 			{ $match: { categories: dto.category } },
 			{ $sort: { _id: 1 } },
