@@ -4,7 +4,6 @@ services:
     image: top-api:latest
     container_name: top-api
     restart: always
-    ports: 
-      - 3000:3000
-    volumes:
-      -./.env:/opt/app/.env
+    ports:
+      - 2323:2323
+    volumes: -./.env:/opt/app/.env
