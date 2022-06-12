@@ -1,7 +1,7 @@
 FROM node
 WORKDIR /opt/app
 ADD package.json package.json
-RUN npm install
+RUN yarn install
 ADD . .
 RUN npm run build
 RUN npm run prune --production
