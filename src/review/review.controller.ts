@@ -16,16 +16,32 @@ import { IdValidationPipe } from '@app/pipes/ad-validation.pipe'
 import { CreateReviewDto } from '@app/review/dto/create-review.dto'
 import { ReviewModel } from '@app/review/review.model'
 import { ReviewService } from '@app/review/review.service'
+import { TelegramService } from '@app/telegram/telegram.service'
 import { REVIEW_NOT_FOUND } from '@app/review/review.constants'
 
 @Controller('review')
 export class ReviewController {
-	constructor(private readonly reviewService: ReviewService) {}
+	constructor(
+		private readonly reviewService: ReviewService,
+		private readonly telegramService: TelegramService
+	) {}
 
 	@UsePipes(new ValidationPipe())
 	@Post('create')
 	async create(@Body() dto: CreateReviewDto): Promise<DocumentType<ReviewModel>> {
 		return this.reviewService.create(dto)
+	}
+
+	@UsePipes(new ValidationPipe())
+	@Post('notify')
+	async notify(@Body() dto: CreateReviewDto) {
+		const message = `Имя: ${dto.name}\n`
+			+ `Заголовок: ${dto.title}\n`
+			+ `Описание: ${dto.description}\n`
+			+ `Рейтинг: ${dto.rating}\n`
+			+ `ID Продукта: ${dto.productId}\n`
+
+		return this.telegramService.sendMessage(message)
 	}
 
 	@Get(':id')

@@ -8,6 +8,7 @@ import { ProductModule } from '@app/product/product.module'
 import { ReviewModule } from '@app/review/review.module'
 import { FilesModule } from '@app/files/files.module'
 import { SitemapModule } from './sitemap/sitemap.module';
+import { TelegramModule } from './telegram/telegram.module';
 
 @Module({
 	imports: [
@@ -22,7 +23,8 @@ import { SitemapModule } from './sitemap/sitemap.module';
 		ProductModule,
 		ReviewModule,
 		FilesModule,
-		SitemapModule
+		SitemapModule,
+		TelegramModule
 	]
 })
 
