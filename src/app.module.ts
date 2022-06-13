@@ -6,6 +6,7 @@ import { AuthModule } from '@app/auth/auth.module'
 import { TopPageModule } from '@app/top-page/top-page.module'
 import { ProductModule } from '@app/product/product.module'
 import { ReviewModule } from '@app/review/review.module'
+import { FilesModule } from '@app/files/files.module'
 
 @Module({
 	imports: [
@@ -18,7 +19,8 @@ import { ReviewModule } from '@app/review/review.module'
 		AuthModule,
 		TopPageModule,
 		ProductModule,
-		ReviewModule
+		ReviewModule,
+		FilesModule
 	]
 })
 
