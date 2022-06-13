@@ -43,6 +43,11 @@ export class TopPageController {
     return topPage
 	}
 
+  @Get()
+  async findAll(): Promise<DocumentType<TopPageModel>[] | null> {
+    return await this.topPageService.findAll()
+  }
+
   @Get('byAlias/:alias')
   async findByAlias(@Param('alias') alias: string): Promise<DocumentType<TopPageModel> | null> {
     const topPage = await this.topPageService.findByAlias(alias)
