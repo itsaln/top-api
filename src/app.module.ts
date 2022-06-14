@@ -7,8 +7,9 @@ import { TopPageModule } from '@app/top-page/top-page.module'
 import { ProductModule } from '@app/product/product.module'
 import { ReviewModule } from '@app/review/review.module'
 import { FilesModule } from '@app/files/files.module'
-import { SitemapModule } from './sitemap/sitemap.module';
-import { TelegramModule } from './telegram/telegram.module';
+import { SitemapModule } from '@app/sitemap/sitemap.module'
+import { TelegramModule } from '@app/telegram/telegram.module'
+import { getTelegramConfig } from '@app/configs/telegram.config'
 
 @Module({
 	imports: [
@@ -24,7 +25,11 @@ import { TelegramModule } from './telegram/telegram.module';
 		ReviewModule,
 		FilesModule,
 		SitemapModule,
-		TelegramModule
+		TelegramModule.forRootAsync({
+			imports: [ConfigModule],
+			inject: [ConfigService],
+			useFactory: getTelegramConfig
+		})
 	]
 })
 

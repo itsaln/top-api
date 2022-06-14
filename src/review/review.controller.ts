@@ -29,7 +29,7 @@ export class ReviewController {
 	@UsePipes(new ValidationPipe())
 	@Post('create')
 	async create(@Body() dto: CreateReviewDto): Promise<DocumentType<ReviewModel>> {
-		return this.reviewService.create(dto)
+		return await this.reviewService.create(dto)
 	}
 
 	@UsePipes(new ValidationPipe())
