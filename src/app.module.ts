@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
+// import { ScheduleModule } from '@nestjs/schedule'
 import { TypegooseModule } from 'nestjs-typegoose'
 import { getMongoConfig } from '@app/configs/mongo.config'
 import { AuthModule } from '@app/auth/auth.module'
@@ -32,7 +33,8 @@ import { HhModule } from '@app//hh/hh.module'
       useFactory: getTelegramConfig
     }),
     HhModule
+    // ScheduleModule.forRoot()
   ]
 })
 
-export class AppModule { }
+export class AppModule {}

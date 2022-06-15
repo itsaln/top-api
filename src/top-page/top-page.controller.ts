@@ -3,7 +3,7 @@ import {
   Controller,
   Delete,
   Get,
-  HttpCode,
+  HttpCode, Logger,
   NotFoundException,
   Param,
   Patch,
@@ -27,18 +27,18 @@ export class TopPageController {
   constructor(
     private readonly topPageService: TopPageService,
     private readonly hhService: HhService
-  ) { }
+  ) {}
 
   @UsePipes(new ValidationPipe())
   @UseGuards(JwtAuthGuard)
   @Post('create')
-  async create(@Body() dto: CreateTopPageDto): Promise<DocumentType<TopPageModel>> {
+  async create(@Body() dto: Omit<CreateTopPageDto, 'hh.updatedAt'>) {
     return await this.topPageService.create(dto)
   }
 
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  async findById(@Param('id', IdValidationPipe) id: string): Promise<DocumentType<TopPageModel> | null> {
+  async findById(@Param('id', IdValidationPipe) id: string) {
     const topPage = await this.topPageService.findById(id)
 
     if (!topPage) {
@@ -53,7 +53,7 @@ export class TopPageController {
   }
 
   @Get('byAlias/:alias')
-  async findByAlias(@Param('alias') alias: string): Promise<DocumentType<TopPageModel> | null> {
+  async findByAlias(@Param('alias') alias: string) {
     const topPage = await this.topPageService.findByAlias(alias)
 
     if (!topPage) {
@@ -71,7 +71,7 @@ export class TopPageController {
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  async deleteById(@Param('id', IdValidationPipe) id: string): Promise<DocumentType<TopPageModel> | null> {
+  async deleteById(@Param('id', IdValidationPipe) id: string) {
     const deletedTopPage = await this.topPageService.deleteById(id)
 
     if (!deletedTopPage) {
@@ -83,7 +83,7 @@ export class TopPageController {
   @UsePipes(new ValidationPipe())
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  async updateById(@Param('id', IdValidationPipe) id: string, @Body() dto: TopPageModel): Promise<DocumentType<TopPageModel> | null> {
+  async updateById(@Param('id', IdValidationPipe) id: string, @Body() dto: TopPageModel) {
     const updatedTopPage = await this.topPageService.updateById(id, dto)
 
     if (!updatedTopPage) {
@@ -97,14 +97,13 @@ export class TopPageController {
     return this.topPageService.findByText(text)
   }
 
-  @Get('test')
+  @Post('test')
   async test() {
     const data = await this.topPageService.findForHhUpdate(new Date())
     for (let page of data) {
-      const hhData = await this.hhService.getData(page.category)
-      console.log(hhData)
-      page.hh = hhData
-      await this.topPageService.updateById(page._id, page)
+      page.hh = await this.hhService.getData(page.category)
+      Logger.log(page.hh)
+      return await this.topPageService.updateById(page._id, page)
     }
   }
 }

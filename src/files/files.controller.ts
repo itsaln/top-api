@@ -7,22 +7,22 @@ import { MFile } from '@app/files/mfile.class'
 
 @Controller('files')
 export class FilesController {
-	constructor(private readonly filesService: FilesService) {}
+  constructor(private readonly filesService: FilesService) {}
 
-	@UseInterceptors(FileInterceptor('files'))
-	@UseGuards(JwtAuthGuard)
-	@HttpCode(200)
-	@Post('upload')
-	async uploadFile(@UploadedFile() file: Express.Multer.File): Promise<FileElementResponse[]> {
-		const saveArray: MFile[] = [new MFile(file)]
+  @UseInterceptors(FileInterceptor('files'))
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(200)
+  @Post('upload')
+  async uploadFile(@UploadedFile() file: Express.Multer.File): Promise<FileElementResponse[]> {
+    const saveArray: MFile[] = [new MFile(file)]
 
-		if(file.mimetype.includes('image')) {
-			const buffer = await this.filesService.convertToWebp(file.buffer)
-			saveArray.push(new MFile({
-				originalname: `${file.originalname.split('.')[0]}.webp`,
-				buffer
-			}))
-		}
-		return await this.filesService.saveFiles(saveArray)
-	}
+    if (file.mimetype.includes('image')) {
+      const buffer = await this.filesService.convertToWebp(file.buffer)
+      saveArray.push(new MFile({
+        originalname: `${file.originalname.split('.')[0]}.webp`,
+        buffer
+      }))
+    }
+    return await this.filesService.saveFiles(saveArray)
+  }
 }

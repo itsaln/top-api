@@ -20,8 +20,7 @@ export class TelegramModule {
     return {
       provide: TELEGRAM_MODULE_OPTIONS,
       useFactory: async (...args: any[]) => {
-        const config = await options.useFactory(...args)
-        return config
+        return options.useFactory(...args)
       },
       inject: options.inject || []
     }

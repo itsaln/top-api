@@ -6,17 +6,17 @@ import { ReviewService } from '@app/review/review.service'
 import { TelegramModule } from '@app/telegram/telegram.module'
 
 @Module({
-	imports: [
-		TypegooseModule.forFeature([
-			{
-				typegooseClass: ReviewModel,
-				schemaOptions: { collection: 'Review' }
-			}
-		]),
-		TelegramModule
-	],
-	controllers: [ReviewController],
-	providers: [ReviewService]
+  imports: [
+    TypegooseModule.forFeature([
+      {
+        typegooseClass: ReviewModel,
+        schemaOptions: { collection: 'Review' }
+      }
+    ]),
+    TelegramModule
+  ],
+  controllers: [ReviewController],
+  providers: [ReviewService]
 })
 
 export class ReviewModule {}
