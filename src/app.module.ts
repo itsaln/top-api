@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
-// import { ScheduleModule } from '@nestjs/schedule'
+import { ScheduleModule } from '@nestjs/schedule'
 import { TypegooseModule } from 'nestjs-typegoose'
 import { getMongoConfig } from '@app/configs/mongo.config'
 import { AuthModule } from '@app/auth/auth.module'
@@ -32,8 +32,8 @@ import { HhModule } from '@app//hh/hh.module'
       inject: [ConfigService],
       useFactory: getTelegramConfig
     }),
-    HhModule
-    // ScheduleModule.forRoot()
+    HhModule,
+    ScheduleModule.forRoot()
   ]
 })
 

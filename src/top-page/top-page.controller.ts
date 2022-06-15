@@ -13,6 +13,7 @@ import {
   ValidationPipe
 } from '@nestjs/common'
 import { DocumentType } from '@typegoose/typegoose/lib/types'
+import { Cron, CronExpression, SchedulerRegistry } from '@nestjs/schedule'
 import { IdValidationPipe } from '@app/pipes/ad-validation.pipe'
 import { JwtAuthGuard } from '@app/auth/guards/jwt.guard'
 import { CreateTopPageDto } from '@app/top-page/dto/create-top-page.dto'
@@ -26,7 +27,8 @@ import { TOP_PAGE_NOT_FOUND_ERROR } from '@app/top-page/top-page.constants'
 export class TopPageController {
   constructor(
     private readonly topPageService: TopPageService,
-    private readonly hhService: HhService
+    private readonly hhService: HhService,
+    private readonly schedulerRegistry: SchedulerRegistry
   ) {}
 
   @UsePipes(new ValidationPipe())
@@ -97,8 +99,9 @@ export class TopPageController {
     return this.topPageService.findByText(text)
   }
 
-  @Post('test')
+  @Cron(CronExpression.EVERY_SECOND, { name: 'test' })
   async test() {
+    const job = this.schedulerRegistry.getCronJob('test')
     const data = await this.topPageService.findForHhUpdate(new Date())
     for (let page of data) {
       page.hh = await this.hhService.getData(page.category)
