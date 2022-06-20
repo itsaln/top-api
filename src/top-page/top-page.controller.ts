@@ -99,7 +99,7 @@ export class TopPageController {
     return this.topPageService.findByText(text)
   }
 
-  @Cron(CronExpression.EVERY_SECOND, { name: 'test' })
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT, { name: 'test' })
   async test() {
     const job = this.schedulerRegistry.getCronJob('test')
     const data = await this.topPageService.findForHhUpdate(new Date())
