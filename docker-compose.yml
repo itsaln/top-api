@@ -1,7 +1,7 @@
 version: '3'
 services:
   top.api:
-    image: docker.pkg.github.com/scripac/top-api/top-api:develop
+    image: docker.pkg.github.com/itsaln/top-api/top-api:develop
     container_name: top-api
     restart: always
     ports:
