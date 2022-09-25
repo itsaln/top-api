@@ -2,7 +2,11 @@
   "name": "top-api",
   "version": "0.0.1",
   "description": "The first Nest JS app",
-  "author": "<itsaln23@gmail.com>",
+  "author": {
+    "email": "itsaln23@gmail.com",
+    "name": "Aladin scorp.uz",
+    "url": "https://scorp.uz"
+  },
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

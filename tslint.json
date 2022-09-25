@@ -42,10 +42,10 @@
     ],
     "switch-final-break": true,
     "import-spacing": true,
-    "max-line-length": [
-      true,
-      120
-    ],
+//    "max-line-length": [
+//      true,
+//      120
+//    ],
     "no-trailing-whitespace": false,
     "quotemark": [
       true,

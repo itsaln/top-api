@@ -10,23 +10,23 @@ import { AuthController } from '@app/auth/auth.controller'
 import { AuthService } from '@app/auth/auth.service'
 
 @Module({
-  imports: [
-    TypegooseModule.forFeature([
-      {
-        typegooseClass: UserModel,
-        schemaOptions: { collection: 'User' }
-      }
-    ]),
-    ConfigModule,
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: getJWTConfig
-    }),
-    PassportModule
-  ],
-  controllers: [AuthController],
-  providers: [AuthService, JwtStrategy]
+	imports: [
+		TypegooseModule.forFeature([
+			{
+				typegooseClass: UserModel,
+				schemaOptions: { collection: 'User' }
+			}
+		]),
+		ConfigModule,
+		JwtModule.registerAsync({
+			imports: [ConfigModule],
+			inject: [ConfigService],
+			useFactory: getJWTConfig
+		}),
+		PassportModule
+	],
+	controllers: [AuthController],
+	providers: [AuthService, JwtStrategy]
 })
 
 export class AuthModule {}

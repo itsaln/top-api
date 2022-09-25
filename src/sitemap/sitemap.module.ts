@@ -4,7 +4,7 @@ import { SitemapController } from '@app/sitemap/sitemap.controller'
 import { TopPageModule } from '@app/top-page/top-page.module'
 
 @Module({
-  controllers: [SitemapController],
-  imports: [TopPageModule, ConfigModule]
+	controllers: [SitemapController],
+	imports: [TopPageModule, ConfigModule]
 })
 export class SitemapModule {}

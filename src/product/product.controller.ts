@@ -1,16 +1,16 @@
 import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpCode,
-  NotFoundException,
-  Param,
-  Patch,
-  Post,
-  UseGuards,
-  UsePipes,
-  ValidationPipe
+	Body,
+	Controller,
+	Delete,
+	Get,
+	HttpCode,
+	NotFoundException,
+	Param,
+	Patch,
+	Post,
+	UseGuards,
+	UsePipes,
+	ValidationPipe
 } from '@nestjs/common'
 import { JwtAuthGuard } from '@app/auth/guards/jwt.guard'
 import { DocumentType } from '@typegoose/typegoose/lib/types'
@@ -24,53 +24,53 @@ import { PRODUCT_NOT_FOUND_ERROR } from '@app/product/product.constants'
 
 @Controller('product')
 export class ProductController {
-  constructor(private readonly productService: ProductService) {}
+	constructor(private readonly productService: ProductService) {}
 
-  @UsePipes(new ValidationPipe())
-  @UseGuards(JwtAuthGuard)
-  @Post('create')
-  async create(@Body() dto: CreateProductDto): Promise<DocumentType<ProductModel>> {
-    return this.productService.create(dto)
-  }
+	@UsePipes(new ValidationPipe())
+	@UseGuards(JwtAuthGuard)
+	@Post('create')
+	async create(@Body() dto: CreateProductDto): Promise<DocumentType<ProductModel>> {
+		return this.productService.create(dto)
+	}
 
-  @UseGuards(JwtAuthGuard)
-  @Get(':id')
-  async findById(@Param('id', IdValidationPipe) id: string): Promise<DocumentType<ProductModel> | null> {
-    const product = await this.productService.findById(id)
+	@UseGuards(JwtAuthGuard)
+	@Get(':id')
+	async findById(@Param('id', IdValidationPipe) id: string): Promise<DocumentType<ProductModel> | null> {
+		const product = await this.productService.findById(id)
 
-    if (!product) {
-      throw new NotFoundException(PRODUCT_NOT_FOUND_ERROR)
-    }
-    return product
-  }
+		if (!product) {
+			throw new NotFoundException(PRODUCT_NOT_FOUND_ERROR)
+		}
+		return product
+	}
 
-  @UseGuards(JwtAuthGuard)
-  @Delete(':id')
-  async deleteById(@Param('id', IdValidationPipe) id: string): Promise<DocumentType<ProductModel> | null> {
-    const deletedProduct = await this.productService.deleteById(id)
+	@UseGuards(JwtAuthGuard)
+	@Delete(':id')
+	async deleteById(@Param('id', IdValidationPipe) id: string): Promise<DocumentType<ProductModel> | null> {
+		const deletedProduct = await this.productService.deleteById(id)
 
-    if (!deletedProduct) {
-      throw new NotFoundException(PRODUCT_NOT_FOUND_ERROR)
-    }
-    return deletedProduct
-  }
+		if (!deletedProduct) {
+			throw new NotFoundException(PRODUCT_NOT_FOUND_ERROR)
+		}
+		return deletedProduct
+	}
 
-  @UseGuards(JwtAuthGuard)
-  @UsePipes(new ValidationPipe())
-  @Patch(':id')
-  async updateById(@Param('id', IdValidationPipe) id: string, @Body() dto: CreateProductDto): Promise<DocumentType<ProductModel> | null> {
-    const updatedProduct = await this.productService.updateById(id, dto)
+	@UseGuards(JwtAuthGuard)
+	@UsePipes(new ValidationPipe())
+	@Patch(':id')
+	async updateById(@Param('id', IdValidationPipe) id: string, @Body() dto: CreateProductDto): Promise<DocumentType<ProductModel> | null> {
+		const updatedProduct = await this.productService.updateById(id, dto)
 
-    if (!updatedProduct) {
-      throw new NotFoundException(PRODUCT_NOT_FOUND_ERROR)
-    }
-    return updatedProduct
-  }
+		if (!updatedProduct) {
+			throw new NotFoundException(PRODUCT_NOT_FOUND_ERROR)
+		}
+		return updatedProduct
+	}
 
-  @UsePipes(new ValidationPipe())
-  @HttpCode(200)
-  @Post('find')
-  async find(@Body() dto: FindProductDto): Promise<(ProductModel & { $reviews: ReviewModel[], reviewCount: number, reviewAvg: number })[]> {
-    return this.productService.findWithReviews(dto)
-  }
+	@UsePipes(new ValidationPipe())
+	@HttpCode(200)
+	@Post('find')
+	async find(@Body() dto: FindProductDto): Promise<(ProductModel & { $reviews: ReviewModel[], reviewCount: number, reviewAvg: number })[]> {
+		return this.productService.findWithReviews(dto)
+	}
 }
